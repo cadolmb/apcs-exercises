@@ -14,6 +14,16 @@ public class CorrectChange {
     int quarters = change / 25;
     change -= quarters * 25;
     int dimes = change / 10;
+    change -= dimes * 10;
+    int nickles = change / 5;
+    change -= nickles * 5;
+    int pennies = change;
+
+    System.out.println("Your change is: ");
+    System.out.println(quarters + " quarters");
+    System.out.println(dimes + " dimes");
+    System.out.println(nickles + " nickles");
+    System.out.println(pennies + " pennies");
   }
 
 }

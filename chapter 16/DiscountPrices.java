@@ -7,9 +7,8 @@ public class DiscountPrices {
     System.out.println("Enter price in cents: ");
 
     int price = s.nextInt();
-    if (price > 1000) {
+    if (price > 1000)
       price *= 0.9;
-    }
     System.out.println("Dicounted price: " + price + " cents.");
   }
 

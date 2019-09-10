@@ -19,18 +19,18 @@ public class OrderChecker {
   }
 
   private static String orderStatus(int b, int n, int w) {
-    if (n >= b && w >= 2*b) {
+    if (n >= b && w >= 2*b)
       return "Order is OK";
-    }
-    if (n < b && w < 2*b) {
+
+    if (n < b && w < 2*b)
       return "Check the Order: too few nuts" + "\nCheck the Order: too few nuts";
-    }
-    if (n < b) {
+
+    if (n < b)
       return "Check the Order: too few nuts";
-    }
-    if (w < 2*b) {
+
+    if (w < 2*b)
       return "Check the Order: too few washers";
-    }
+
     return "ERROR";
   }
 

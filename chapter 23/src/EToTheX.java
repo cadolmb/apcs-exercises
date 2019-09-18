@@ -19,15 +19,16 @@ public class EToTheX {
       n ++;
     }
 
-    System.out.println("my e^x: " + sum);
+    System.out.println("\nmy e^x: " + sum);
     System.out.println("real e^x: " + Math.exp(x));
   }
 
   private static int factorial(int n) {
     int product = 1;
-    for (int i = 0; i < n; i++) {
+    for (int i = 1; i <= n; i++) {
       product *= i;
     }
     return product;
   }
+
 }

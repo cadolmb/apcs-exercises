@@ -2,6 +2,8 @@ import java.util.Scanner;
 
 public class PasswordCracker {
 
+    private static final int maxPassLength = 4;
+
     //private static String choices = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
     private static String choices = "abcdefghijklmnopqrstuvwxyz";
     private static String password;
@@ -10,39 +12,28 @@ public class PasswordCracker {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(
-            "Enter a password that is 5 or less characters long" +
+            "Enter a password that is" + maxPassLength + " or less characters long" +
             //"\nand contains only letters and numbers"
             "\nand contains only lowercase letters"
         );
 
         password = scanner.nextLine();
 
-        if (!validInput) {
+        if (!validInput(password)) {
             System.out.println("Invalid input");
             return;
         }
 
-        // CRACK PASSWORD
-        boolean cracked = false;
-        String s;
-        while (cracked == false) {
-            for (int i = 0; i < choices.length(); i++) {
-                for (int j = 0; j < choices.length(); j++) {
+        crackPassword();
+    }
 
-                }
-            }
-        }
-
-        s = "";
-        s += choices.charAt(i);
-        if (s == password) {
-            break;
-        }
+    private static void crackPassword() {
+        // INSERT CODE HERE
     }
 
     private static boolean validInput(String s) {
 
-        if (s.length() > 5) {
+        if (s.length() > maxPassLength) {
             return false;
         }
 

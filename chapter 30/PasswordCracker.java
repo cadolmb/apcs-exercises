@@ -25,41 +25,22 @@ public class PasswordCracker {
             return;
         }
 
-
         // CRACK PASSWORD
-        int guessNum = 0;
-        String guess = "";
-        while (guess != password) {
-            System.out.println("\nguessnum - " + guessNum);
+        for (int guessLength = 1; guessLength <= maxPassLength; guessLength++) {
+            // String guess = "";
+            // char firstChoice = choices.charAt(0);
+            // for (int i = 0; i < guessLength; i++) { guess += firstChoice; }
 
-            guess = GuessNumToString(guessNum);
+            for (int guessIndex = 0; guessIndex < guessLength; guessIndex++) {
+                // string here
+                for (int choiceIndex = 0; choiceIndex < choices.length(); choiceIndex++) {
+                    // test here
+                }
 
-            System.out.println("guess: " + guess + "\n");
-            guessNum++;
+            }
 
-            if (guessNum > 500) return;
-        }
-    }
-
-    private static String GuessNumToString(int n) {
-        ArrayList<Character> chars = new ArrayList<Character>();
-        int basePerm = choices.length();
-
-        for (int i = 1; n >= 0; i++) {
-            int perm = (int) Math.pow((double) basePerm, (double) i);
-            int rem = n % basePerm;
-
-            System.out.println(n + " - " + perm + " - " + rem);
-
-            chars.add(choices.charAt(rem));
-            n -= perm;
         }
 
-        // CONVERTING ARRAY LIST TO STRING AND RETURNING
-        char[] ca = new char[chars.size()];
-        for (int i = 0; i < chars.size(); i++) { ca[i] = chars.get(i); }
-        String s = new String(ca);
-        return s;
     }
 
     private static boolean validInput(String s) {

@@ -18,6 +18,16 @@ public class Farkle {
         if (player1.roll() > player2.roll()) {
             turn = 1; // PLAYER 1
             System.out.println("\n" + player1.name() + " You go first");
+
+            int[] roll = player1.rollAll();
+
+            int[] aside = int[6];
+            System.out.println("Enter the numbers you want to set aside: ");
+            for (int i = 0; i < 6; i ++) {
+                scanner.nextInt();
+            }
+
+
         }
         else {
             turn = 2;

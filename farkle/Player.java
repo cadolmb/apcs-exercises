@@ -1,5 +1,4 @@
-import java.util.Scanner;
-import java.util.Random;
+import java.util.*;
 
 public class Player {
 
@@ -32,14 +31,35 @@ public class Player {
             int n = random.nextInt(6) + 1;
             rolls[i] = n;
         }
-        System.out.println(name + " you rolled " + rolls);
+        System.out.print(name + " - you rolled: ");
+        for (int i : rolls) { System.out.print(i + " "); }
+        System.out.println();
         return rolls;
+    }
+
+    public int[] setAsideDice(int[] rolls) {
+        System.out.println("Enter the numbers you want to set aside: (ex: 1 or 1, 2)");
+        String[] input = scanner.nextLine().split(",");
+        int[] aside = new int[input.length];
+        for (int i = 0; i < input.length; i++) {
+            aside[i] = Integer.parseInt(input[i]);
+        }
+        for (int i : aside) {
+            if (!Util.contains(Farkle.pointDice, i)) {
+                Util.inputError();
+            }
+        }
+        return aside;
     }
 
     public void addScore(int i) {
         score += i;
     }
 
+    public int score() {
+        return score;
+    }
+    
     public String name() {
         return name;
     }

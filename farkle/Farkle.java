@@ -5,19 +5,18 @@ public class Farkle {
     private static Player player1;
     private static Player player2;
     private static int turn;
-
-    public static final int[] pointDice = {1, 5};
-    public static final int[] points = {100, 50};
+    private static int winner;
+    public static final int maxScore = 10000;
 
     public static void main(String[] args) {
-        System.out.println("Two Player Farkle!!!");
+        System.out.println("\n\n\n---Two Player Farkle---");
         Scanner scanner = new Scanner(System.in);
 
-        player1 = new Player(scanner);
-        player2 = new Player(scanner);
+        player1 = new Player(scanner, 1);
+        player2 = new Player(scanner, 2);
 
         // SEE WHO GOES FIRST
-        System.out.println("\nRoll to see who goes first: ");
+        System.out.println("\n\n\nRoll to see who goes first: ");
         if (player1.roll() > player2.roll()) {
             turn = 1;
             System.out.println("\n" + player1.name() + " You go first");
@@ -28,62 +27,183 @@ public class Farkle {
         }
 
         /*
-        GAME TURNS
+        GAME LOOP
         */
         boolean playing = true;
+        boolean lastTurn = false;
         while (playing) {
             boolean farkle = true;
             boolean hotdice = true;
 
-            if (turn == 1) { // player 1's turn
-                int[] rolls = player1.rollAll();
-                for (int i : rolls) {
-                    if (!Util.contains(pointDice, i)) hotdice = false;
-                    if (Util.contains(pointDice, i)) farkle = false;
-                }
-                if (farkle) {
+            if (turn == 1 || true) { // player 1's turn
+                System.out.println("\n\n\n-- " + player1.name() + "'s turn --");
+                int numToRoll = 6;
+                ArrayList<Integer> asideList = new ArrayList<Integer>();
+                boolean rolling = true;
 
-                }
-                else if (hotdice) {
+                while (rolling) {
+                    int[] rolls = player1.roll(numToRoll);
+                    for (int i : rolls) {
+                        if (!isPointDice(i)) hotdice = false;
+                        if (isPointDice(i)) farkle = false;
+                    }
+                    if (farkle) {
 
-                }
-                else {
-                    int[] aside = player1.setAsideDice(rolls);
-                    countScore(aside, player1);
-                    System.out.println("Score: " + player2.score());
+                    }
+                    else if (hotdice) {
+
+                    }
+                    else {
+                        int[] setAside = player1.setAsideDice(rolls); // get array of dice set aside
+                        for (int i : setAside) { asideList.add(i); } // add dice set aside to aside list
+                        numToRoll -= setAside.length;
+                        //countScore(aside(asideList), player1);
+                        //System.out.println("Score: " + player1.score());
+                        System.out.println("You set aside: " + asideList);
+                        if (player1.endTurn()) {
+                            rolling = false;
+                            turn = 2;
+                        }
+                        else {
+                            System.out.println("You have " + numToRoll + " dice remaining");
+                        }
+
+                    }
+
+                    if (lastTurn) {
+                        if (player1.score() > player2.score()) {
+                            winner = 1;
+                            playing = false;
+                        }
+                        else {
+                            winner = 2;
+                            playing = false;
+                        }
+                    }
+                    else {
+                        turn = 2;
+                        if (player1.score() > maxScore)
+                            lastTurn = true;
+                    }
                 }
             }
 
-            if (turn == 2) { // player 2's turn
-                int[] rolls = player2.rollAll();
-                for (int i : rolls) {
-                    if (!Util.contains(pointDice, i)) hotdice = false;
-                    if (Util.contains(pointDice, i)) farkle = false;
-                }
-                if (farkle) {
+            else if (turn == 2 && false) { // player 2's turn
+                System.out.println("\n\n\n-- " + player2.name() + "'s turn --");
+                int numOfDice = 6;
+                int[] rolls = player2.roll(6);
+                boolean rolling = true;
 
-                }
-                else if (hotdice) {
+                while (rolling) {
+                    for (int i : rolls) {
+                        if (!isPointDice(i)) hotdice = false;
+                        if (isPointDice(i)) farkle = false;
+                    }
+                    if (farkle) {
 
-                }
-                else {
-                    int[] aside = player2.setAsideDice(rolls);
-                    countScore(aside, player2);
-                    System.out.println("Score: " + player2.score());
+                    }
+                    else if (hotdice) {
+
+                    }
+                    else {
+                        int[] aside = player2.setAsideDice(rolls);
+                        countScore(aside, player2);
+                        System.out.println("Score: " + player2.score());
+                    }
+
+                    if (lastTurn) {
+                        if (player1.score() > player2.score()) {
+                            winner = 1;
+                            playing = false;
+                        }
+                        else {
+                            winner = 2;
+                            playing = false;
+                        }
+                    }
+                    else {
+                        turn = 1;
+                        if (player2.score() > maxScore)
+                            lastTurn = true;
+                    }
                 }
             }
         }
     }
 
     private static void countScore(int[] rolls, Player player) {
-        for (int i : rolls) {
-            if (i == pointDice[0]) {
-                player.addScore(points[0]);
+        Arrays.sort(rolls);
+        int points = 0;
+
+        // TRIPLES
+        if (rolls.length == 3) {
+            if (rolls == new int[]{1,1,1}) {
+                points += 300;
             }
-            if (i == pointDice[1]) {
-                player.addScore(points[1]);
+            else if (rolls == new int[]{2,2,2}) {
+                points += 200;
+            }
+            else if (rolls == new int[]{3,3,3}) {
+                points += 300;
+            }
+            else if (rolls == new int[]{4,4,4}) {
+                points += 400;
+            }
+            else if (rolls == new int[]{5,5,5}) {
+                points += 500;
+            }
+            else if (rolls == new int[]{6,6,6}) {
+                points += 600;
             }
         }
+        else if (rolls.length == 6) {
+            if (rolls == new int[]{1,2,3,4,5,6}) { // 1-6 straight
+                points += 1500;
+            }
+            else if (rolls[0] == rolls[1] && rolls[2] == rolls[3] && rolls[4] == rolls[5]) {  // 3 pairs
+                points += 1500;
+            }
+        }
+
+        for (int i : new int[]{1,2,3,4,5,6}) {
+            if (rolls == new int[]{i,i,i,i}) {  // 4 of a kind
+                points += 1000;
+            }
+            else if (rolls == new int[]{i,i,i,i,i}) {  // 5 of a kind
+                points += 2000;
+            }
+            else if (rolls == new int[]{i,i,i,i,i,i}) {  // 6 of a kind
+                points += 3000;
+            }
+        }
+
+        for (int i : rolls) {
+            if (i == 1) {
+                points += 100;
+            }
+            else if (i == 5) {
+                points += 50;
+            }
+        }
+
+        player.addScore(points);
     }
 
+    public static boolean isPointDice(int n) {
+        boolean b = false;
+        for (int i : new int[]{1,5}) {
+            if (i == n)
+                b = true;
+        }
+        return b;
+    }
+
+    public static int[] aside(ArrayList<Integer> list) {
+        int l = list.size();
+        int[] array = new int[l];
+        for (int i = 0; i < l; i++) {
+            array[i] = list.get(i);
+        }
+        return array;
+    }
 }

@@ -24,13 +24,13 @@ public class Player {
 
     public int[] roll(int n) {
         System.out.print("\nPress ENTER to roll " + n + " dice");
+        scanner.nextLine();
         Random random = new Random();
         int[] rolls = new int[n];
         for (int i = 0; i < n; i++) {
             int r = random.nextInt(n) + 1;
             rolls[i] = r;
         }
-        scanner.nextLine();
         System.out.print("You rolled: ");
         for (int i : rolls) { System.out.print(i + " "); }
         System.out.println();
@@ -44,17 +44,16 @@ public class Player {
         for (int i = 0; i < input.length; i++) {
             aside[i] = Integer.parseInt(input[i]);
         }
-        Arrays.sort(aside);
         return aside;
     }
 
     public boolean endTurn() {
-        System.out.print("Would you like to end your turn? (yes = 1, no = 0) ");
-        int i = scanner.nextInt();
-        if (i == 0) {
+        System.out.print("Would you like to continue rolling? (y/n) ");
+        char c = Character.toLowerCase(scanner.nextLine().charAt(0));
+        if (c == 'y') {
             return false;
         }
-        else if (i == 1) {
+        else if (c == 'n') {
             return true;
         }
         else {

@@ -42,6 +42,7 @@ public class Farkle {
                 boolean rolling = true;
 
                 while (rolling) {
+                    // ROLL DICE
                     int[] rolls = player1.roll(numToRoll);
                     for (int i : rolls) {
                         if (!isPointDice(i)) hotdice = false;
@@ -55,7 +56,7 @@ public class Farkle {
                     }
                     else {
                         int[] setAside = player1.setAsideDice(rolls); // get array of dice set aside
-                        for (int i : setAside) { asideList.add(i); } // add dice set aside to aside list
+                        for (int i : setAside) { asideList.add(i); } // add to aside list
                         numToRoll -= setAside.length;
                         //countScore(aside(asideList), player1);
                         //System.out.println("Score: " + player1.score());
@@ -63,11 +64,15 @@ public class Farkle {
                         if (player1.endTurn()) {
                             rolling = false;
                             turn = 2;
+                            int[] finalAside = new int[asideList.size()];
+                            for (int i = 0; i < asideList.size(); i++) {
+                                finalAside[i] = asideList.get(i);
+                            }
+                            countScore(finalAside, player1);
                         }
                         else {
-                            System.out.println("You have " + numToRoll + " dice remaining");
+                            // PLAYER CONTINUES TURN
                         }
-
                     }
 
                     if (lastTurn) {
@@ -90,11 +95,13 @@ public class Farkle {
 
             else if (turn == 2 && false) { // player 2's turn
                 System.out.println("\n\n\n-- " + player2.name() + "'s turn --");
-                int numOfDice = 6;
-                int[] rolls = player2.roll(6);
+                int numToRoll = 6;
+                ArrayList<Integer> asideList = new ArrayList<Integer>();
                 boolean rolling = true;
 
                 while (rolling) {
+                    // ROLL DICE
+                    int[] rolls = player2.roll(numToRoll);
                     for (int i : rolls) {
                         if (!isPointDice(i)) hotdice = false;
                         if (isPointDice(i)) farkle = false;
@@ -106,10 +113,26 @@ public class Farkle {
 
                     }
                     else {
-                        int[] aside = player2.setAsideDice(rolls);
-                        countScore(aside, player2);
-                        System.out.println("Score: " + player2.score());
+                        int[] setAside = player2.setAsideDice(rolls); // get array of dice set aside
+                        for (int i : setAside) { asideList.add(i); } // add to aside list
+                        numToRoll -= setAside.length;
+                        //countScore(aside(asideList), player2);
+                        //System.out.println("Score: " + player2.score());
+                        System.out.println("You set aside: " + asideList);
+                        if (player2.endTurn()) {
+                            rolling = false;
+                            turn = 2;
+                            int[] finalAside = new int[asideList.size()];
+                            for (int i = 0; i < asideList.size(); i++) {
+                                finalAside[i] = asideList.get(i);
+                            }
+                            countScore(finalAside, player2);
+                        }
+                        else {
+                            // PLAYER CONTINUES TURN
+                        }
                     }
+
 
                     if (lastTurn) {
                         if (player1.score() > player2.score()) {
@@ -137,27 +160,29 @@ public class Farkle {
 
         // TRIPLES
         if (rolls.length == 3) {
-            if (rolls == new int[]{1,1,1}) {
+            System.out.println("testing for triples");
+            for (int i : rolls) {System.out.println(i);}
+            if (Arrays.equals(rolls, new int[]{1,1,1})) {
                 points += 300;
             }
-            else if (rolls == new int[]{2,2,2}) {
+            else if (Arrays.equals(rolls, new int[]{2,2,2})) {
                 points += 200;
             }
-            else if (rolls == new int[]{3,3,3}) {
+            else if (Arrays.equals(rolls, new int[]{3,3,3})) {
                 points += 300;
             }
-            else if (rolls == new int[]{4,4,4}) {
+            else if (Arrays.equals(rolls, new int[]{4,4,4})) {
                 points += 400;
             }
-            else if (rolls == new int[]{5,5,5}) {
+            else if (Arrays.equals(rolls, new int[]{5,5,5})) {
                 points += 500;
             }
-            else if (rolls == new int[]{6,6,6}) {
+            else if (Arrays.equals(rolls, new int[]{6,6,6})) {
                 points += 600;
             }
         }
         else if (rolls.length == 6) {
-            if (rolls == new int[]{1,2,3,4,5,6}) { // 1-6 straight
+            if (Arrays.equals(rolls, new int[]{1,2,3,4,5,6})) { // 1-6 straight
                 points += 1500;
             }
             else if (rolls[0] == rolls[1] && rolls[2] == rolls[3] && rolls[4] == rolls[5]) {  // 3 pairs
@@ -166,13 +191,13 @@ public class Farkle {
         }
 
         for (int i : new int[]{1,2,3,4,5,6}) {
-            if (rolls == new int[]{i,i,i,i}) {  // 4 of a kind
+            if (Arrays.equals(rolls, new int[]{i,i,i,i})) {  // 4 of a kind
                 points += 1000;
             }
-            else if (rolls == new int[]{i,i,i,i,i}) {  // 5 of a kind
+            else if (Arrays.equals(rolls, new int[]{i,i,i,i,i})) {  // 5 of a kind
                 points += 2000;
             }
-            else if (rolls == new int[]{i,i,i,i,i,i}) {  // 6 of a kind
+            else if (Arrays.equals(rolls, new int[]{i,i,i,i,i,i})) {  // 6 of a kind
                 points += 3000;
             }
         }
@@ -185,7 +210,7 @@ public class Farkle {
                 points += 50;
             }
         }
-
+        
         player.addScore(points);
     }
 

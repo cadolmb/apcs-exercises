@@ -18,12 +18,15 @@ public class countpoints {
         Arrays.sort(rolls);
         int points = 0;
 
+        int[] count = new int[rolls.length];
+        for (int i : rolls) {
+            count[i] += 1;
+        }
+
         // TRIPLES
         if (rolls.length == 3) {
-            System.out.println("testing for triples");
-            for (int i : rolls) {System.out.println(i);}
             if (Arrays.equals(rolls, new int[]{1,1,1})) {
-                points += 300;
+                points += 1000;
             }
             else if (Arrays.equals(rolls, new int[]{2,2,2})) {
                 points += 200;

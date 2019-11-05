@@ -7,9 +7,9 @@ public class TestFX extends Application {
     primaryStage.show();
   }
 
-  // // Not needed for most systems
+  // Not needed for most systems
   public static void main(String[] args) {
     launch();
   }
-  
+
 }

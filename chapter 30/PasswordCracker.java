@@ -2,11 +2,11 @@ import java.util.Scanner;
 
 public class PasswordCracker {
 
-    private static final int maxPassLength = 4;
+    private static final int maxPassLength = 6;
 
     //private static String choices = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
-    private static String choices = "abcdefghijklmnopqrstuvwxyz";
-    //private static String choices = "1234567890";
+    //private static String choices = "abcdefghijklmnopqrstuvwxyz";
+    private static String choices = "1234567890";
 
     public static void main(String[] args) {
 
@@ -14,13 +14,14 @@ public class PasswordCracker {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(
-            "\nEnter a password that is " + maxPassLength + " or less characters long" +
+            //"\nEnter a password that is " + maxPassLength + " or less characters long" +
             //"\nand contains only letters and numbers:\n"
-            "\nand contains only lowercase letters:\n"
+            //"\nand contains only lowercase letters:\n"
             //"\nand contains only numbers:\n"
+            "\nEnter your infinite campus password"
         );
 
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().substring(4, 10);
 
         if (!validInput(input)) {
             System.out.println("Invalid input");
@@ -30,18 +31,18 @@ public class PasswordCracker {
         // CRACK PASSWORD
         String guess = "" + choices.charAt(0);
         boolean cracked = false;
-        int attempts = 0;
+        int attempts = 1;
 
         while (!cracked) {
             if (guess.equals(input)) {
-                System.out.println("\nCracked!!! - " + guess);
+                System.out.println("\nCracked!!! - Dcsd" + guess);
                 System.out.println("It took " + attempts + " attempts of brute force.");
                 cracked = true;
             }
             else {
                 guess = nextChoiceString(guess);
                 attempts++;
-                System.out.println(guess); // FOR MAXIMUM SPEED LEAVE COMMENTED
+                System.out.println("Dcsd" + guess); // FOR MAXIMUM SPEED LEAVE COMMENTED
             }
         }
 
